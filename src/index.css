@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* SurveyJS Custom Styles */
+.sd-root-modern {
+  --background: #2f2f2f !important;
+  --background-dim: #1f1f1f !important;
+  --primary: #444791 !important;
+  --primary-light: #5557a5 !important;
+  --foreground: #ffffff !important;
+  --foreground-light: #cccccc !important;
+  --base-unit: 8px !important;
+}
+
+.sd-root-modern .sd-btn {
+  background-color: var(--primary) !important;
+  color: var(--foreground) !important;
+}
+
+.sd-root-modern .sd-input:not([disabled]):focus {
+  border-color: var(--primary) !important;
+}
+
+.sd-root-modern .sd-input {
+  background-color: var(--background-dim) !important;
+  border-color: #444 !important;
+  color: var(--foreground) !important;
+  font-size: 14px !important; /* Increased font size */
+  padding: 8px 12px !important; /* Adjusted padding */
+}
+
+.sd-root-modern .sd-input:disabled {
+  background-color: var(--background-dim) !important;
+  border-color: #444 !important;
+  color: var(--foreground-light) !important;
+  opacity: 0.7;
+}
+
+.sd-root-modern .sd-panel {
+  background-color: var(--background-dim) !important;
+}
+
+.sd-root-modern .sd-title {
+  color: var(--foreground) !important;
+  font-size: 14px !important; /* Adjusted title size */
+}
+
+.sd-root-modern .sd-description {
+  color: var(--foreground-light) !important;
+  font-size: 14px !important;
+}
+
+.sd-root-modern .sd-panel__title {
+  color: var(--foreground-light) !important;
+  font-size: 14px !important;
+}
+
+.sd-root-modern textarea {
+  min-height: 100px !important;
+  font-size: 14px !important;
+}
+
+/* Adjust question titles */
+.sd-question__title {
+  font-size: 14px !important;
+}
