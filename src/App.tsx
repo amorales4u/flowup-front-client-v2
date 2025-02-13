@@ -6,10 +6,14 @@ import ItemHeader from './ItemHeader.tsx';
 import ChatInput from './ChatInput.tsx';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = (isValid: boolean) => {
+    setIsLoggedIn(isValid);
+  };
 
   if (!isLoggedIn) {
-    return <Login />;
+    return <Login onLogin={handleLogin} />;
   }
 
   return (

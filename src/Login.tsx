@@ -1,13 +1,43 @@
 import React, { useState } from 'react';
 import { Mail, Lock, MessageSquare } from 'lucide-react';
 
-function Login() {
-  const [email, setEmail] = useState('');
+function Login({ onLogin }: { onLogin: (isValid: boolean) => void }) {
+  const [name, setname] = useState(''); // Changed from email to name
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
+    setError('');
+    setLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:8030/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, password }), // Send name instead of email
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.valid) {
+        onLogin(true);
+      } else {
+        setError(data.name || 'Invalid credentials');
+        onLogin(false);
+      }
+    } catch (error: any) {
+      setError(error.message || 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -23,20 +53,20 @@ function Login() {
 
         <form onSubmit={handleSubmit} className="bg-[#2f2f2f] rounded-lg p-6 space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-1">
-              Email Address
+            <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-1">
+              name
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Mail className="h-5 w-5 text-gray-400" />
+                <Mail className="h-5 w-5 text-gray-400" /> {/* Consider changing the icon */}
               </div>
               <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="name"
+                type="text" // Changed type to text
+                value={name}
+                onChange={(e) => setname(e.target.value)}
                 className="block w-full pl-10 pr-3 py-2 bg-[#1f1f1f] border border-[#444] rounded-md text-white placeholder-gray-500 focus:outline-none focus:border-[#444791] focus:ring-1 focus:ring-[#444791]"
-                placeholder="Enter your email"
+                placeholder="Enter your name" // Updated placeholder
                 required
               />
             </div>
@@ -83,9 +113,12 @@ function Login() {
           <button
             type="submit"
             className="w-full bg-[#444791] text-white py-2 px-4 rounded-md hover:bg-[#5557a5] focus:outline-none focus:ring-2 focus:ring-[#444791] focus:ring-offset-2 focus:ring-offset-[#2f2f2f] transition-colors"
+            disabled={loading}
           >
-            Sign in
+            {loading ? 'Signing in...' : 'Sign in'}
           </button>
+
+          {error && <div className="text-red-500 text-sm">{error}</div>}
 
           <div className="text-center mt-4 text-sm text-gray-400">
             Don't have an account?{' '}
