@@ -1,3 +1,4 @@
+// In ItemList.tsx
 import React from 'react';
 import { Menu, Search } from 'lucide-react';
 import Item from './Item';
@@ -6,12 +7,14 @@ interface ItemListProps {
   items: {
     name: string;
     description: string;
-    image: string | null; // Allow null for image
+    image: string | null;
     modifyDate: string;
+    time: string; // Add time prop
   }[];
+  onSelectItem: (item: any) => void; // Add onSelectItem prop
 }
 
-function ItemList({ items }: ItemListProps) {
+function ItemList({ items, onSelectItem }: ItemListProps) {
   return (
     <div className="w-72 bg-[#222222] h-screen p-4">
       <div className="flex items-center justify-between mb-6">
@@ -31,9 +34,10 @@ function ItemList({ items }: ItemListProps) {
           <Item
             key={index}
             name={item.name}
-            message={item.description} // Using description as message
+            message={item.description}
             date={item.modifyDate}
-            active={item.name === "Sesion de Dudas"} // Keep active state for "Sesion de Dudas"
+            active={item.name === "Sesion de Dudas"}
+            onClick={() => onSelectItem(item)} // Call onSelectItem when item is clicked
           />
         ))}
       </div>

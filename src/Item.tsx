@@ -1,3 +1,4 @@
+// In Item.tsx
 import React from 'react';
 
 interface ItemProps {
@@ -5,6 +6,7 @@ interface ItemProps {
   message: string;
   date: string;
   active?: boolean;
+  onClick?: () => void; // Add onClick prop
 }
 
 function formatRelativeTime(dateString: string): string {
@@ -35,11 +37,14 @@ function formatRelativeTime(dateString: string): string {
   return dateString.split(" ")[0]; // Returns YYYY-MM-DD
 }
 
-function Item({ name, message, date, active = false }: ItemProps) {
+function Item({ name, message, date, active = false, onClick }: ItemProps) {
   const formattedDate = formatRelativeTime(date);
 
   return (
-    <div className={`p-3 rounded-md cursor-pointer ${active ? 'bg-[#444791]' : 'hover:bg-[#2f2f2f]'}`}>
+    <div
+      className={`p-3 rounded-md cursor-pointer ${active ? 'bg-[#444791]' : 'hover:bg-[#2f2f2f]'}`}
+      onClick={onClick} // Add onClick handler
+    >
       <div className="flex justify-between items-start mb-1">
         <h3 className="text-white font-medium">{name}</h3>
         <span className="text-gray-400 text-xs">{formattedDate}</span>
@@ -48,5 +53,7 @@ function Item({ name, message, date, active = false }: ItemProps) {
     </div>
   );
 }
+
+// ... (formatRelativeTime function remains the same)
 
 export default Item;

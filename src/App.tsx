@@ -62,11 +62,11 @@ function App() {
     { "name": "Sesion de Dudas", "description": "Usuarios con dudas", "image": null, "modifyDate": "2024-02-26 16:00" },
     { "name": "FOL-000-001", "description": "Modificaciiòn de datos del usuario", "image": null, "modifyDate": "2024-02-26 16:00" }
   ];
-
+/*
   if (!isLoggedIn) {
     return <Login onLogin={handleLogin} />;
   }
-
+*/
   return (
     <div className="flex h-screen bg-[#1f1f1f]">
       <Sidebar items={sidebarItems} onLogout={handleLogout} />
@@ -75,6 +75,7 @@ function App() {
         <ItemHeader />
         <div className="flex-1 overflow-y-auto p-6">
           <ItemDetail
+              itemData={itemListItems[0]}
             title="Sesión De Dudas"
             date="30 Nov"
             time="2:00 PM - 2:30 PM, Sat"
