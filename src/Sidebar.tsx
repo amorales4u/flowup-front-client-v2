@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell, Calendar, MessageSquare, Users, LogOut } from 'lucide-react';
+import { Bell, Calendar, Users, User, LogOut } from 'lucide-react';
 import LogoutDialog from './LogoutDialog';
 
 interface SidebarItem {
@@ -16,12 +16,12 @@ interface SidebarProps {
 
 function getIconComponent(iconName: string) {
   switch (iconName) {
-    case 'message-square':
-      return MessageSquare;
-    case 'bell':
-      return Bell;
     case 'users':
       return Users;
+    case 'bell':
+      return Bell;
+    case 'user':
+      return User;
     case 'calendar':
       return Calendar;
     default:

@@ -1,10 +1,11 @@
 // In ItemList.tsx
-import React from 'react';
+import { useState } from 'react';
 import { Menu, Search } from 'lucide-react';
 import Item from './Item';
 
 interface ItemListProps {
   items: {
+      id: string; // Add id prop
     name: string;
     description: string;
     image: string | null;
@@ -15,10 +16,17 @@ interface ItemListProps {
 }
 
 function ItemList({ items, onSelectItem }: ItemListProps) {
+
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const _onSelectItem = (item) => {
+        setSelectedItem(item);
+        onSelectItem(item);
+    };
   return (
     <div className="w-72 bg-[#222222] h-screen p-4">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-white text-xl font-semibold">Chat</h2>
+        <h2 className="text-white text-xl font-semibold">{"Grupos"}</h2>
         <Menu className="text-gray-400" size={20} />
       </div>
       <div className="bg-[#292929] rounded-md p-2 flex items-center mb-4">
@@ -37,7 +45,7 @@ function ItemList({ items, onSelectItem }: ItemListProps) {
             message={item.description}
             date={item.modifyDate}
             active={item.name === "Sesion de Dudas"}
-            onClick={() => onSelectItem(item)} // Call onSelectItem when item is clicked
+            onClick={() => _onSelectItem(item)} // Call onSelectItem when item is clicked
           />
         ))}
       </div>

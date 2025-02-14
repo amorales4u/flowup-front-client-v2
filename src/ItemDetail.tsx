@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Edit2, Save, X, MessageSquare, File, Image, FileText, List } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Edit2, Save, X, Image } from 'lucide-react';
 import { Model } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import "survey-core/defaultV2.min.css";
@@ -35,7 +35,7 @@ function ItemDetail({ itemData, onSave }: ItemDetailProps) {
             {
               type: "text",
               name: "name",
-              title: "Meeting Name",
+              title: "Name",
               defaultValue: itemData.name,
               isRequired: true,
               readOnly: !isEditing
@@ -167,7 +167,6 @@ function ItemDetail({ itemData, onSave }: ItemDetailProps) {
   return (
     <div className="bg-[#2f2f2f] rounded-lg shadow-lg p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-white">Meeting Details</h2>
         {!isEditing ? (
           <button 
             onClick={handleEdit} 

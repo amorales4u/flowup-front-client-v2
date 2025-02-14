@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Login from './Login.tsx';
 import Sidebar from './Sidebar.tsx';
 import ItemList from './ItemList.tsx';
 import ItemHeader from './ItemHeader.tsx';
-import ItemDetail from './ItemDetail.tsx';
 
 interface UserSession {
   token: string | null;
@@ -52,15 +51,17 @@ function App() {
   };
 
   const sidebarItems = [
-    { name: 'Chat', description: 'Chat de usuarios', image: 'message-square', modifyDate: '2024-02-26 16:00' },
-    { name: 'Notifications', description: 'Notifications', image: 'bell', modifyDate: '2024-02-26 16:00' },
-    { name: 'Users', description: 'User management', image: 'users', modifyDate: '2024-02-26 16:00' },
-    { name: 'Calendar', description: 'Event calendar', image: 'calendar', modifyDate: '2024-02-26 16:00' },
+    { id: "01JM2GSK7K4TH1K3YCCFZMGB0J", name: 'Grupos', description: 'Grupos', image: 'users', modifyDate: '2024-02-26 16:00' },
+    { id: "01JM2GSY53FNRCFZKJD3QGS73C", name: 'Users', description: 'User management', image: 'user', modifyDate: '2024-02-26 16:00' },
+    { id: "01JM2GT68WV3C43A3KGPNMF2PS", name: 'Notifications', description: 'Notifications', image: 'bell', modifyDate: '2024-02-26 16:00' },
+    { id: "01JM2GV1NDXG0W37P221ZV0T10", name: 'Calendar', description: 'Event calendar', image: 'calendar', modifyDate: '2024-02-26 16:00' },
   ];
 
   const itemListItems = [
-    { "name": "Sesion de Dudas", "description": "Usuarios con dudas", "image": null, "modifyDate": "2024-02-26 16:00" },
-    { "name": "FOL-000-001", "description": "Modificaciiòn de datos del usuario", "image": null, "modifyDate": "2024-02-26 16:00" }
+    { id: "01JM2GV9X01YYM2WVTXN6ZXKDM",name: "Admin", description: "Administrador general", image: null, modifyDate: "2024-02-26 16:00" },
+    { id: "01JM2GVKT8J6EWG7X1BSJXN34R",name: "BPMN-ADMIN", description: "Grupo de administradores de BPMN", image: null, modifyDate: "2024-02-26 16:00" },
+    { id: "01JM2GVWHET2TYP0SKT7K58YC2",name: "BPMN-USER", description: "Grupo de usuarios de BPMN", image: null, modifyDate: "2024-02-26 16:00" },
+    { id: "01JM2GVWHET2TYP0SKT7K58YC2",name: "amorales", description: "Antonio Morales", image: null, modifyDate: "2024-02-26 16:00" },
   ];
 /*
   if (!isLoggedIn) {
@@ -72,17 +73,7 @@ function App() {
       <Sidebar items={sidebarItems} onLogout={handleLogout} />
       <ItemList items={itemListItems} />
       <div className="flex-1 flex flex-col">
-        <ItemHeader />
-        <div className="flex-1 overflow-y-auto p-6">
-          <ItemDetail
-              itemData={itemListItems[0]}
-            title="Sesión De Dudas"
-            date="30 Nov"
-            time="2:00 PM - 2:30 PM, Sat"
-            description="You created this meeting"
-            onSave={handleSaveItemDetail}
-          />
-        </div>
+        <ItemHeader itemData={itemListItems[0]}/>
       </div>
     </div>
   );
