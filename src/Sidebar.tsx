@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell, Calendar, Users, User, LogOut } from 'lucide-react';
+import {Bell, Calendar, Users, User, LogOut, Workflow} from 'lucide-react';
 import LogoutDialog from './LogoutDialog';
 
 interface SidebarItem {
@@ -48,6 +48,14 @@ function Sidebar({ items, onLogout }: SidebarProps) {
   return (
     <>
       <div className="w-16 bg-[#2f2f2f] h-screen flex flex-col items-center py-4 space-y-6">
+
+        <div
+            title="FlowUp"
+            className="text-gray-400 cursor-pointer text-white"
+        >
+          <Workflow size={24} />
+        </div>
+
         {items.map((item, index) => {
           const IconComponent = getIconComponent(item.image);
           return (

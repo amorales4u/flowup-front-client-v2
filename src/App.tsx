@@ -18,6 +18,7 @@ interface UserSession {
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<UserSession | null>(null);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     // Check for existing session on component mount
@@ -50,6 +51,11 @@ function App() {
     // Implement save logic here
   };
 
+  const handleSelectItem = (item: any) => {
+    console.log('Selected item:', item);
+    setSelectedItem(item);
+  }
+
   const sidebarItems = [
     { id: "01JM2GSK7K4TH1K3YCCFZMGB0J", name: 'Grupos', description: 'Grupos', image: 'users', modifyDate: '2024-02-26 16:00' },
     { id: "01JM2GSY53FNRCFZKJD3QGS73C", name: 'Users', description: 'User management', image: 'user', modifyDate: '2024-02-26 16:00' },
@@ -61,7 +67,10 @@ function App() {
     { id: "01JM2GV9X01YYM2WVTXN6ZXKDM",name: "Admin", description: "Administrador general", image: null, modifyDate: "2024-02-26 16:00" },
     { id: "01JM2GVKT8J6EWG7X1BSJXN34R",name: "BPMN-ADMIN", description: "Grupo de administradores de BPMN", image: null, modifyDate: "2024-02-26 16:00" },
     { id: "01JM2GVWHET2TYP0SKT7K58YC2",name: "BPMN-USER", description: "Grupo de usuarios de BPMN", image: null, modifyDate: "2024-02-26 16:00" },
-    { id: "01JM2GVWHET2TYP0SKT7K58YC2",name: "amorales", description: "Antonio Morales", image: null, modifyDate: "2024-02-26 16:00" },
+    { id: "01JM3B73R09RNS0XBSG46Y11B8",name: "amorales", description: "Antonio Morales", image: null, modifyDate: "2024-02-26 16:00" },
+    { id: "01JM3C2XE17MMKKDFSKG7TKCP0",name: "yamilaxel", description: "Yamil Axel Morales", image: null, modifyDate: "2024-02-26 16:00" },
+    { id: "01JM3C35KJPBJS4VQ9BV8KMDMN",name: "yairmorales", description: "Yair Morales", image: null, modifyDate: "2024-02-26 16:00" },
+    { id: "01JM3C3CCBQQ5VK4MP1J9NGF1B",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
   ];
 /*
   if (!isLoggedIn) {
@@ -71,9 +80,9 @@ function App() {
   return (
     <div className="flex h-screen bg-[#1f1f1f]">
       <Sidebar items={sidebarItems} onLogout={handleLogout} />
-      <ItemList items={itemListItems} />
+      <ItemList items={itemListItems} onSelectItem={ (item) => handleSelectItem(item)}/>
       <div className="flex-1 flex flex-col">
-        <ItemHeader itemData={itemListItems[0]}/>
+        <ItemHeader itemData={selectedItem}/>
       </div>
     </div>
   );

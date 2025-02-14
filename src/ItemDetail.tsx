@@ -84,7 +84,7 @@ function ItemDetail({ itemData, onSave }: ItemDetailProps) {
     // Custom CSS for both edit and display modes
     surveyModel.css = {
       root: 'bg-[#2f2f2f] text-white',
-      container: 'max-w-none',
+      container: 'max-w-none ',
       question: {
         root: 'mb-6',
         title: 'text-gray-400 text-sm font-medium mb-2',
@@ -165,7 +165,7 @@ function ItemDetail({ itemData, onSave }: ItemDetailProps) {
   };
 
   return (
-    <div className="bg-[#2f2f2f] rounded-lg shadow-lg p-6">
+    <div className="bg-[#2f2f2f] rounded-lg shadow-lg p-6 overflow-y-auto">
       <div className="flex items-center justify-between mb-4">
         {!isEditing ? (
           <button 

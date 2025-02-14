@@ -9,7 +9,9 @@ function ItemHeader({ itemData, onSave }: ItemDetailProps) {
         <div className="flex-1 flex flex-col">
             <div className="h-16 border-b border-[#2f2f2f] flex items-center justify-between px-4">
                 <div className="flex items-center space-x-4">
-                    <h1 className="text-white text-lg font-semibold">Sesión De Dudas</h1>
+                    <h1 className="text-white text-lg font-semibold">{itemData?.name}</h1>
+                    <h1 className="text-white text-lg font-semibold">{ "-" }</h1>
+                    <h4 className="text-white text-lg font-semibold">{itemData?.description}</h4>
                 </div>
                 <div className="flex items-center space-x-4">
                     <button
@@ -38,7 +40,7 @@ function ItemHeader({ itemData, onSave }: ItemDetailProps) {
                     </button>
                 </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto  p-6">
             <ItemDetail
                 itemData={itemData}
             />

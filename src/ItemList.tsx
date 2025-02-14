@@ -21,8 +21,12 @@ function ItemList({ items, onSelectItem }: ItemListProps) {
 
     const _onSelectItem = (item) => {
         setSelectedItem(item);
-        onSelectItem(item);
+        if( onSelectItem ) {
+            onSelectItem(item);
+        }
     };
+
+
   return (
     <div className="w-72 bg-[#222222] h-screen p-4">
       <div className="flex items-center justify-between mb-6">
@@ -37,14 +41,14 @@ function ItemList({ items, onSelectItem }: ItemListProps) {
           className="bg-transparent text-white outline-none w-full"
         />
       </div>
-      <div className="space-y-4">
+      <div className="space-y-4 overflow-y-auto">
         {items.map((item, index) => (
           <Item
             key={index}
             name={item.name}
             message={item.description}
             date={item.modifyDate}
-            active={item.name === "Sesion de Dudas"}
+            active={item.id === selectedItem?.id}
             onClick={() => _onSelectItem(item)} // Call onSelectItem when item is clicked
           />
         ))}
