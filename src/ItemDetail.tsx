@@ -30,7 +30,7 @@ function ItemDetail({ itemData, onSave }: ItemDetailProps) {
         {
           type: "panel",
           name: "meetingDetailsPanel",
-          title: "Meeting Information",
+          title: "Information",
           elements: [
             {
               type: "text",
@@ -196,50 +196,6 @@ function ItemDetail({ itemData, onSave }: ItemDetailProps) {
         )}
       </div>
 
-      <div className="flex items-center justify-start gap-4 border-b border-[#444] pb-4">
-        <button
-          onClick={() => handleViewChange('details')}
-          className={`text-gray-400 hover:text-white focus:text-white p-2 rounded-md hover:bg-[#444791] transition-colors ${activeView === 'details' ? 'bg-[#444791] text-white' : ''}`}
-          title="Details"
-        >
-          <List size={20} />
-        </button>
-        <button
-          onClick={() => handleViewChange('chat')}
-          className={`text-gray-400 hover:text-white focus:text-white p-2 rounded-md hover:bg-[#444791] transition-colors ${activeView === 'chat' ? 'bg-[#444791] text-white' : ''}`}
-          title="Chat"
-        >
-          <MessageSquare size={20} />
-        </button>
-        <button
-          onClick={() => handleViewChange('files')}
-          className={`text-gray-400 hover:text-white focus:text-white p-2 rounded-md hover:bg-[#444791] transition-colors ${activeView === 'files' ? 'bg-[#444791] text-white' : ''}`}
-          title="Files"
-        >
-          <File size={20} />
-        </button>
-        <button
-          onClick={() => handleViewChange('photos')}
-          className={`text-gray-400 hover:text-white focus:text-white p-2 rounded-md hover:bg-[#444791] transition-colors ${activeView === 'photos' ? 'bg-[#444791] text-white' : ''}`}
-          title="Photos"
-        >
-          <Image size={20} />
-        </button>
-        <button
-          onClick={() => handleViewChange('notes')}
-          className={`text-gray-400 hover:text-white focus:text-white p-2 rounded-md hover:bg-[#444791] transition-colors ${activeView === 'notes' ? 'bg-[#444791] text-white' : ''}`}
-          title="Notes"
-        >
-          <FileText size={20} />
-        </button>
-        <button
-          onClick={() => handleViewChange('log')}
-          className={`text-gray-400 hover:text-white focus:text-white p-2 rounded-md hover:bg-[#444791] transition-colors ${activeView === 'log' ? 'bg-[#444791] text-white' : ''}`}
-          title="Log"
-        >
-          <List size={20} />
-        </button>
-      </div>
 
       <div className="mt-4">{renderContent()}</div>
     </div>
