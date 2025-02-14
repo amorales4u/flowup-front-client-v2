@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Bell, Calendar, MessageSquare, Users, LogOut } from 'lucide-react';
+import LogoutDialog from './LogoutDialog';
 
 interface SidebarItem {
   name: string;
@@ -13,7 +14,6 @@ interface SidebarProps {
   onLogout: () => void;
 }
 
-// Simple icon mapping function.  Expand this as needed.
 function getIconComponent(iconName: string) {
   switch (iconName) {
     case 'message-square':
@@ -24,47 +24,62 @@ function getIconComponent(iconName: string) {
       return Users;
     case 'calendar':
       return Calendar;
-    // Add more mappings here
     default:
-      return null; // Or a default icon
+      return null;
   }
 }
 
 function Sidebar({ items, onLogout }: SidebarProps) {
-  const handleLogout = () => {
-    if (window.confirm('Are you sure you want to logout?')) {
-      onLogout();
-    }
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+
+  const handleLogoutClick = () => {
+    setShowLogoutDialog(true);
+  };
+
+  const handleLogoutConfirm = () => {
+    setShowLogoutDialog(false);
+    onLogout();
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutDialog(false);
   };
 
   return (
-    <div className="w-16 bg-[#2f2f2f] h-screen flex flex-col items-center py-4 space-y-6">
-      {items.map((item, index) => {
-        const IconComponent = getIconComponent(item.image);
-        return (
-          <div
-            key={index}
-            title={item.description}
-            className="text-gray-400 hover:text-white cursor-pointer hover:bg-[#444791] hover:rounded-xl transition-all duration-200 ease-in-out p-2 hover:shadow-[0_0_10px_rgba(100,100,255,0.5)]"
-          >
-            {IconComponent ? (
-              <IconComponent size={24} className={item.name === "Chat" ? "text-white" : ""} />
-            ) : (
-              <span>?</span>
-            )} {/* Display "?" if no icon found */}
-          </div>
-        );
-      })}
+    <>
+      <div className="w-16 bg-[#2f2f2f] h-screen flex flex-col items-center py-4 space-y-6">
+        {items.map((item, index) => {
+          const IconComponent = getIconComponent(item.image);
+          return (
+            <div
+              key={index}
+              title={item.description}
+              className="text-gray-400 hover:text-white cursor-pointer hover:bg-[#444791] hover:rounded-xl transition-all duration-200 ease-in-out p-2 hover:shadow-[0_0_10px_rgba(100,100,255,0.5)]"
+            >
+              {IconComponent ? (
+                <IconComponent size={24} className={item.name === "Chat" ? "text-white" : ""} />
+              ) : (
+                <span>?</span>
+              )}
+            </div>
+          );
+        })}
 
-      {/* Logout Button */}
-      <div
-        title="Logout"
-        className="text-gray-400 hover:text-white cursor-pointer hover:bg-[#444791] hover:rounded-xl transition-all duration-200 ease-in-out p-2 hover:shadow-[0_0_10px_rgba(100,100,255,0.5)] mt-auto"
-        onClick={handleLogout}
-      >
-        <LogOut size={24} />
+        <div
+          title="Logout"
+          className="text-gray-400 hover:text-white cursor-pointer hover:bg-[#444791] hover:rounded-xl transition-all duration-200 ease-in-out p-2 hover:shadow-[0_0_10px_rgba(100,100,255,0.5)] mt-auto"
+          onClick={handleLogoutClick}
+        >
+          <LogOut size={24} />
+        </div>
       </div>
-    </div>
+
+      <LogoutDialog
+        isOpen={showLogoutDialog}
+        onConfirm={handleLogoutConfirm}
+        onCancel={handleLogoutCancel}
+      />
+    </>
   );
 }
 
