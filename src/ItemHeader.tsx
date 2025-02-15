@@ -1,13 +1,21 @@
 import {useState} from 'react';
-import {PenSquare, File, FileText, List} from 'lucide-react';
-import ItemDetail from "./ItemDetail.tsx";
+    import {PenSquare, File, FileText, List} from 'lucide-react';
+    import ItemDetail from "./ItemDetail.tsx";
 
-function ItemHeader({ itemData, onSave }: ItemDetailProps) {
-    const [activeView, setActiveView] = useState<'details' | 'files' | 'notes' | 'log'>('details');
+    interface ItemHeaderProps {
+      itemData: {
+        name: string;
+        description: string;
+        date: string;
+        time: string;
+      } | null;
+    }
 
-    return (
-        <div className="flex-1 flex flex-col">
-            <div className="h-16 border-b border-[#2f2f2f] flex items-center justify-between px-4">
+    function ItemHeader({ itemData }: ItemHeaderProps) {
+        const [activeView, setActiveView] = useState<'details' | 'files' | 'notes' | 'log'>('details');
+
+        return (
+            <div className="h-16 flex items-center justify-between px-4 bg-gradient-to-r from-[#1e293b] to-[#0f172a]">
                 <div className="flex items-center space-x-4">
                     <h1 className="text-white text-lg font-semibold">{itemData?.name}</h1>
                     <h1 className="text-white text-lg font-semibold">{ "-" }</h1>
@@ -40,13 +48,7 @@ function ItemHeader({ itemData, onSave }: ItemDetailProps) {
                     </button>
                 </div>
             </div>
-            <div className="flex-1 overflow-y-auto  p-6">
-            <ItemDetail
-                itemData={itemData}
-            />
-        </div>
-    </div>
-    );
-}
+        );
+    }
 
-export default ItemHeader;
+    export default ItemHeader;

@@ -1,8 +1,19 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-};
+    module.exports = {
+      content: [
+        "./index.html",
+        "./src/**/*.{js,ts,jsx,tsx}",
+      ],
+      theme: {
+        extend: {
+          backgroundSize: {
+            '200%': '200%',
+          },
+          backgroundPosition: {
+            'left-bottom': 'left bottom',
+            'left-top': 'left top',
+          },
+        },
+      },
+      plugins: [],
+    }

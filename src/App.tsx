@@ -2,6 +2,7 @@ import { useState } from 'react';
     import Sidebar from './Sidebar.tsx';
     import ItemList from './ItemList.tsx';
     import ItemHeader from './ItemHeader.tsx';
+    import ItemDetail from './ItemDetail.tsx';
 
     interface SidebarItem {
       name: string;
@@ -29,33 +30,19 @@ import { useState } from 'react';
         { id: "01JM2GV9X01YYM2WVTXN6ZXKDM",name: "Admin", description: "Administrador general", image: null, modifyDate: "2024-02-26 16:00" },
         { id: "01JM2GVKT8J6EWG7X1BSJXN34R",name: "BPMN-ADMIN", description: "Grupo de administradores de BPMN", image: null, modifyDate: "2024-02-26 16:00" },
         { id: "01JM2GVWHET2TYP0SKT7K58YC2",name: "BPMN-USER", description: "Grupo de usuarios de BPMN", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3B73R09RNS0XBSG46Y11B8",name: "amorales", description: "Antonio Morales", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C2XE17MMKKDFSKG7TKCP0",name: "yamilaxel", description: "Yamil Axel Morales", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C35KJPBJS4VQ9BV8KMDMN",name: "yairmorales", description: "Yair Morales", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1B",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1C",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1D",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1E",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1F",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1G",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1H",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1I",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1J",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1K",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1L",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1M",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1N",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
-        { id: "01JM3C3CCBQQ5VK4MP1J9NGF1O",name: "marzam", description: "Mario Cruz", image: null, modifyDate: "2024-02-26 16:00" },
       ];
 
       return (
-        <div className="flex h-screen bg-[#1f1f1f]">
+        <div className="flex h-screen bg-gradient-to-br from-[#1e293b] to-[#0f172a]">
           <Sidebar items={sidebarItems} onLogout={() => {}} />
           <div className="w-72 h-full">
             <ItemList items={itemListItems} onSelectItem={handleSelectItem}/>
           </div>
           <div className="flex-1 flex flex-col">
             <ItemHeader itemData={selectedItem}/>
+            {selectedItem && (
+              <ItemDetail itemData={selectedItem} />
+            )}
           </div>
         </div>
       );

@@ -27,7 +27,7 @@ import { useState } from 'react';
 
 
       return (
-        <div className="bg-[#222222] h-full p-4 flex flex-col">
+        <div className="bg-[#222222] bg-opacity-20 h-full p-4 flex flex-col">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-white text-xl font-semibold">{"Grupos"}</h2>
             <Menu className="text-gray-400" size={20} />
@@ -40,7 +40,7 @@ import { useState } from 'react';
               className="bg-transparent text-white outline-none w-full"
             />
           </div>
-          <div className="space-y-4 flex-1 overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-rounded scrollbar-thumb-gray-500 scrollbar-track-gray-200">
+          <div className="space-y-4 overflow-y-auto flex-1">
             {items.map((item, index) => (
               <Item
                 key={index}

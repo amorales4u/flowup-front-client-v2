@@ -83,7 +83,7 @@ import { useState, useEffect } from 'react';
         
         // Custom CSS for both edit and display modes
         surveyModel.css = {
-          root: 'bg-[#2f2f2f] text-white',
+          root: 'text-white bg-opacity-20', // Apply transparency here
           container: 'max-w-none ',
           question: {
             root: 'mb-6',
@@ -165,7 +165,7 @@ import { useState, useEffect } from 'react';
       };
 
       return (
-        <div className="bg-[#2f2f2f] rounded-lg shadow-lg p-6 overflow-y-auto h-[calc(100vh-8rem)] scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-rounded scrollbar-thumb-gray-500 scrollbar-track-gray-200">
+        <div className="bg-[#2f2f2f] rounded-lg shadow-lg p-6 overflow-y-auto h-full scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-rounded scrollbar-thumb-gray-500 scrollbar-track-gray-200 bg-opacity-30">
           <div className="flex items-center justify-between mb-4">
             {!isEditing ? (
               <button 
