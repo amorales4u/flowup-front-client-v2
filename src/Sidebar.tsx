@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-    import {Bell, Calendar, Users, User, LogOut, Workflow} from 'lucide-react';
+    import {Bell, Calendar, Users, User, LogOut, Workflow, ClipboardCheck} from 'lucide-react';
     import LogoutDialog from './LogoutDialog';
 
     interface SidebarItem {
@@ -18,8 +18,8 @@ import React, { useState } from 'react';
       switch (iconName) {
         case 'users':
           return Users;
-        case 'bell':
-          return Bell;
+        case 'ClipboardCheck':
+          return ClipboardCheck; // Changed from Bell to ClipboardCheck
         case 'user':
           return User;
         case 'calendar':

@@ -15,6 +15,8 @@ import { useState, useEffect } from 'react';
     }
 
     function ItemDetail({ itemData, onSave }: ItemDetailProps) {
+      const [name, setName] = useState(itemData?.name || '');
+      const [description, setDescription] = useState(itemData?.description || '');
       const [isEditing, setIsEditing] = useState(false);
       const [survey, setSurvey] = useState<Model | null>(null);
       const [activeView, setActiveView] = useState<'details' | 'chat' | 'files' | 'photos' | 'notes' | 'log'>('details');
@@ -25,7 +27,7 @@ import { useState, useEffect } from 'react';
         const surveyJson = {
           showNavigationButtons: false,
           showQuestionNumbers: "off",
-          mode: isEditing ? "edit" : "display",
+          mode: "display",
           elements: [
             {
               type: "panel",
@@ -38,7 +40,7 @@ import { useState, useEffect } from 'react';
                   title: "Name",
                   defaultValue: itemData.name,
                   isRequired: true,
-                  readOnly: !isEditing
+                  readOnly: true
                 },
                 {
                   type: "comment",
@@ -46,7 +48,7 @@ import { useState, useEffect } from 'react';
                   title: "Description",
                   defaultValue: itemData.description,
                   isRequired: true,
-                  readOnly: !isEditing
+                  readOnly: true
                 },
                 {
                   type: "panel",
@@ -58,7 +60,7 @@ import { useState, useEffect } from 'react';
                       name: "date",
                       title: "Date",
                       defaultValue: itemData.date,
-                      readOnly: !isEditing,
+                      readOnly: true,
                       startWithNewLine: false,
                       titleLocation: "left"
                     },
@@ -67,7 +69,7 @@ import { useState, useEffect } from 'react';
                       name: "time",
                       title: "Time",
                       defaultValue: itemData.time,
-                      readOnly: !isEditing,
+                      readOnly: true,
                       startWithNewLine: false,
                       titleLocation: "left"
                     }
@@ -100,7 +102,7 @@ import { useState, useEffect } from 'react';
         };
 
         // Additional styling for display mode
-        if (!isEditing) {
+        if (true) {
           surveyModel.css = {
             ...surveyModel.css,
             question: {
@@ -111,92 +113,64 @@ import { useState, useEffect } from 'react';
         }
 
         // Disable hover effects in display mode
-        if (!isEditing) {
+        if (true) {
           surveyModel.hoverFocus = false;
         }
 
         setSurvey(surveyModel);
-      }, [itemData, isEditing]);
+      }, [itemData]);
 
-      const handleEdit = () => setIsEditing(true);
-      const handleCancel = () => {
-        setIsEditing(false);
-        if (survey) survey.clear(true, true);
-      };
-      const handleSave = () => {
-        if (survey && onSave) onSave(survey.data);
-        setIsEditing(false);
-      };
-
-      const handleViewChange = (view: 'details' | 'chat' | 'files' | 'photos' | 'notes' | 'log') => {
-        setActiveView(view);
-        if (isEditing) handleCancel();
-      };
+      useEffect(() => {
+        if (itemData) {
+          setName(itemData.name || '');
+          setDescription(itemData.description || '');
+        }
+      }, [itemData]);
 
       const renderContent = () => {
         if (!itemData) {
           return <p>Loading item details...</p>;
         }
 
-        switch (activeView) {
-          case 'details':
-            return survey ? <Survey model={survey} /> : null;
-          case 'chat':
-            return <p>Chat content goes here</p>;
-          case 'files':
-            return <p>Files content goes here</p>;
-          case 'photos':
-            return (
-              <div>
-                <div className="flex items-center justify-center h-48 mb-4 rounded-lg bg-[#1f1f1f]">
-                  <Image size={48} className="text-gray-400" />
-                </div>
-                <p className="text-gray-400 text-center">No photos shared in the chat</p>
-                <p className="text-gray-400 text-center text-sm">Photos added to chat automatically show up here.</p>
-              </div>
-            );
-          case 'notes':
-            return <p>Notes content goes here</p>;
-          case 'log':
-            return <p>Log content goes here</p>;
-          default:
-            return null;
-        }
+        return (
+          <div className="overflow-y-auto h-[400px]">
+            {survey && <Survey model={survey} />}
+          </div>
+        );
       };
 
       return (
-        <div className="bg-[#2f2f2f] rounded-lg shadow-lg p-6 overflow-y-auto h-full scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-rounded scrollbar-thumb-gray-500 scrollbar-track-gray-200 bg-opacity-30">
-          <div className="flex items-center justify-between mb-4">
-            {!isEditing ? (
-              <button 
-                onClick={handleEdit} 
-                className="inline-flex items-center gap-2 bg-[#444791] text-white px-4 py-2 rounded-md hover:bg-[#5557a5] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#444791] focus:ring-opacity-50"
-              >
-                <Edit2 size={16} />
-                <span>Edit</span>
-              </button>
-            ) : (
-              <div className="flex gap-2">
-                <button 
-                  onClick={handleSave} 
-                  className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
-                >
-                  <Save size={16} />
-                  <span>Save</span>
-                </button>
-                <button 
-                  onClick={handleCancel} 
-                  className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-                >
-                  <X size={16} />
-                  <span>Cancel</span>
-                </button>
-              </div>
-            )}
+        <div className="bg-[#2f2f2f] rounded-lg shadow-lg p-6 bg-opacity-30 h-full">
+          <div className="space-y-4 mb-4">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-400">
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="bg-[#1f1f1f] border border-[#444] rounded-md p-2 text-white w-full"
+                readOnly={true}
+              />
+            </div>
+            <div>
+              <label htmlFor="description" className="block text-sm font-medium text-gray-400">
+                Description
+              </label>
+              <input
+                type="text"
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="bg-[#1f1f1f] border border-[#444] rounded-md p-2 text-white w-full"
+                readOnly={true}
+              />
+            </div>
           </div>
 
-
-          <div className="mt-4">{renderContent()}</div>
+          {renderContent()}
         </div>
       );
     }

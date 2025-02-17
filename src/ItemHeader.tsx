@@ -19,7 +19,7 @@ import {useState} from 'react';
                 <div className="flex items-center space-x-4">
                     <h1 className="text-white text-lg font-semibold">{itemData?.name}</h1>
                     <h1 className="text-white text-lg font-semibold">{ "-" }</h1>
-                    <h4 className="text-white text-lg font-semibold">{itemData?.description}</h4>
+                    <h4 className="text-gray-300 text-sm">{itemData?.description}</h4> {/* Changed font size */}
                 </div>
                 <div className="flex items-center space-x-4">
                     <button
