@@ -23,6 +23,7 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
     const [activeView, setActiveView] = useState<'preview' | 'edit' | 'attachments' | 'notes' | 'log'>('preview');
     const [name, setName] = useState(itemData?.name || '');
     const [description, setDescription] = useState(itemData?.description || '');
+    const [showConfirmation, setShowConfirmation] = useState(false);
     const [userName, setUserName] = useState('Current User'); // Replace with your actual user data
 
     const handleEditClick = () => {
@@ -73,10 +74,19 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
     };
 
     const handleCancelClick = () => {
+        setShowConfirmation(true);
+    };
+
+    const handleConfirmCancel = () => {
+        setShowConfirmation(false);
+        setActiveView('preview');
         if (onCancel) {
             onCancel();
         }
-        setActiveView('preview');
+    };
+
+    const handleDismissCancel = () => {
+        setShowConfirmation(false);
     };
 
     if (!itemData) {
@@ -185,11 +195,50 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
                         />
                     </div>
                 </div>
+                {activeView === 'edit' && (
+                    <ItemEdit
+                        itemData={itemData}
+                        onSave={onSave}
+                        onCancel={handleCancelClick}
+                    />
+                )}
                 {activeView === 'notes' && <ItemNotes userName={userName} />}
                 {activeView === 'attachments' && <ItemAttachments />}
                 {activeView === 'log' && <ItemLog />}
                 {activeView === 'preview' && <ItemPreview itemData={itemData} isEditing={activeView === 'edit'} />}
             </div>
+
+            {/* Confirmation Dialog */}
+            {showConfirmation && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    {/* Backdrop */}
+                    <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm" onClick={handleDismissCancel} />
+
+                    {/* Modal */}
+                    <div className="relative bg-[#2f2f2f] rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden">
+                        {/* Content */}
+                        <div className="p-6">
+                            <p className="text-white">Are you sure you want to cancel? All changes will be lost.</p>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="flex items-center justify-end gap-3 px-6 py-4 bg-[#262626]">
+                            <button
+                                onClick={handleDismissCancel}
+                                className="px-4 py-2 text-gray-300 hover:text-white hover:bg-[#444] rounded-md transition-colors duration-200"
+                            >
+                                No, continue editing
+                            </button>
+                            <button
+                                onClick={handleConfirmCancel}
+                                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors duration-200"
+                            >
+                                Yes, cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

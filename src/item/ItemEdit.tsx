@@ -16,6 +16,7 @@ import React, { useState, useEffect } from 'react';
     function ItemEdit({ itemData, onSave, onCancel }: ItemEditProps) {
       const [name, setName] = useState('');
       const [description, setDescription] = useState('');
+      const [showConfirmation, setShowConfirmation] = useState(false);
 
       useEffect(() => {
         if (itemData) {
@@ -26,6 +27,19 @@ import React, { useState, useEffect } from 'react';
 
       const handleSaveClick = () => {
         onSave(name, description);
+      };
+
+      const handleCancelClick = () => {
+        setShowConfirmation(true);
+      };
+
+      const handleConfirmCancel = () => {
+        setShowConfirmation(false);
+        onCancel();
+      };
+
+      const handleDismissCancel = () => {
+        setShowConfirmation(false);
       };
 
       if (!itemData) {
@@ -60,6 +74,8 @@ import React, { useState, useEffect } from 'react';
               />
             </div>
           </div>
+
+          
         </>
       );
     }
