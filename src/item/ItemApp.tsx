@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {PenSquare, File, FileText, List, Check, X} from 'lucide-react';
+import {PenSquare, File, FileText, List, Check, X, Info} from 'lucide-react';
 import ItemNotes from './ItemNotes';
 import ItemAttachments from './ItemAttachments';
 import ItemLog from './ItemLog';
+import ItemPreview from './ItemPreview';
 
 interface ItemHeaderProps {
     itemData: {
@@ -17,39 +18,64 @@ interface ItemHeaderProps {
     onCancel?: () => void;
 }
 
-function ItemApp({itemData, onViewChange, activeView, onSave, onCancel}: ItemHeaderProps) {
+function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
+    const [activeView, setActiveView] = useState<'preview' | 'edit' | 'attachments' | 'notes' | 'log'>('preview');
     const [name, setName] = useState(itemData?.name || '');
     const [description, setDescription] = useState(itemData?.description || '');
     const [userName, setUserName] = useState('Current User'); // Replace with your actual user data
 
     const handleEditClick = () => {
-        onViewChange('edit');
+        if( activeView === 'edit') {
+            setActiveView('preview');
+        } else {
+            setActiveView('edit');
+        }
+    };
+
+    const handleDataClick = () => {
+        if( activeView === 'preview') {
+            return;
+            }
+        setActiveView('preview');
     };
 
     const handleAttachmentsClick = () => {
-        onViewChange('attachments');
+        if( activeView === 'attachments') {
+            setActiveView('preview');
+        } else {
+            setActiveView('attachments');
+        }
+
     };
 
     const handleNotesClick = () => {
-        onViewChange('notes');
+        if( activeView === 'notes') {
+            setActiveView('preview');
+        } else {
+            setActiveView('notes');
+        }
     };
 
     const handleLogClick = () => {
-        onViewChange('log');
+        if( activeView === 'log') {
+            setActiveView('preview');
+        } else {
+            setActiveView('log');
+        }
     };
 
     const handleSaveClick = () => {
         if (onSave && itemData) {
             onSave(name, description);
-            onViewChange('preview');
         }
+        setActiveView('preview');
     };
 
     const handleCancelClick = () => {
         if (onCancel) {
             onCancel();
         }
-        onViewChange('preview');
+        setActiveView('preview');
     };
 
     if (!itemData) {
@@ -93,6 +119,14 @@ function ItemApp({itemData, onViewChange, activeView, onSave, onCancel}: ItemHea
                                 <span className="ml-2">Edit</span>
                             </button>
                             <button
+                                onClick={handleDataClick}
+                                className={`inline-flex items-center text-gray-400 hover:text-white focus:text-white p-2 rounded-md hover:bg-[#444791] transition-colors`}
+                                title="Data"
+                            >
+                                <Info size={20}/>
+                                <span className="ml-2">Data</span>
+                            </button>
+                            <button
                                 onClick={handleAttachmentsClick}
                                 className={`inline-flex items-center text-gray-400 hover:text-white focus:text-white p-2 rounded-md hover:bg-[#444791] transition-colors`}
                                 title="Attachments"
@@ -125,6 +159,7 @@ function ItemApp({itemData, onViewChange, activeView, onSave, onCancel}: ItemHea
                 {activeView === 'notes' && <ItemNotes userName={userName} />}
                 {activeView === 'attachments' && <ItemAttachments />}
                 {activeView === 'log' && <ItemLog />}
+                {activeView === 'preview'  && <ItemPreview itemData={itemData} />}
             </div>
         </>
     );
