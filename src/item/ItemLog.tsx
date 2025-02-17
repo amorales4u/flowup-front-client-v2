@@ -33,6 +33,54 @@ function ItemLog() {
       typeModified: 'debug',
       message: 'User logged in',
     },
+    {
+      userModifier: 'Admin',
+      dateModified: '2024-02-27 10:30:00',
+      typeModified: 'error',
+      message: 'Attachment failed to upload',
+    },
+    {
+      userModifier: 'User2',
+      dateModified: '2024-02-27 11:00:00',
+      typeModified: 'debug',
+      message: 'User logged in',
+    },
+    {
+      userModifier: 'Admin',
+      dateModified: '2024-02-27 10:30:00',
+      typeModified: 'error',
+      message: 'Attachment failed to upload',
+    },
+    {
+      userModifier: 'User2',
+      dateModified: '2024-02-27 11:00:00',
+      typeModified: 'debug',
+      message: 'User logged in',
+    },
+    {
+      userModifier: 'Admin',
+      dateModified: '2024-02-27 10:30:00',
+      typeModified: 'error',
+      message: 'Attachment failed to upload',
+    },
+    {
+      userModifier: 'User2',
+      dateModified: '2024-02-27 11:00:00',
+      typeModified: 'debug',
+      message: 'User logged in',
+    },
+    {
+      userModifier: 'Admin',
+      dateModified: '2024-02-27 10:30:00',
+      typeModified: 'error',
+      message: 'Attachment failed to upload',
+    },
+    {
+      userModifier: 'User2',
+      dateModified: '2024-02-27 11:00:00',
+      typeModified: 'debug',
+      message: 'User logged in',
+    },
   ];
 
   const getTypeColor = (type: LogEntry['typeModified']) => {
@@ -51,8 +99,10 @@ function ItemLog() {
   };
 
   return (
-    <div>
-      <h3 className="text-white text-lg font-semibold mb-2">Log</h3>
+      <>
+        <h3 className="text-white text-lg font-semibold mb-2 " >Log</h3>
+    <div className={`bg-opacity-30 h-full overflow-y-auto flex flex-col`}>
+
       <div className="space-y-2">
         {logEntries.map((entry, index) => (
           <div key={index} className="bg-[#1f1f1f] rounded-md p-3">
@@ -64,6 +114,7 @@ function ItemLog() {
         ))}
       </div>
     </div>
+        </>
   );
 }
 

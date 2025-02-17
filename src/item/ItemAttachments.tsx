@@ -40,8 +40,10 @@ function ItemAttachments() {
   };
 
   return (
-    <div>
-      <h3 className="text-white text-lg font-semibold mb-2">Attachments</h3>
+
+      <>
+        <h3 className="text-white text-lg font-semibold mb-2 " >Attachments</h3>
+        <div className={`bg-opacity-30 h-full overflow-y-auto flex flex-col`}>
       <div className="mb-4">
         <label
           htmlFor="fileUpload"
@@ -80,6 +82,7 @@ function ItemAttachments() {
         ))}
       </div>
     </div>
+        </>
   );
 }
 

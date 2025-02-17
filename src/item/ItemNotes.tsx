@@ -27,9 +27,10 @@ function ItemNotes() {
   };
 
   return (
-    <div>
-      <h3 className="text-white text-lg font-semibold mb-2">Notes</h3>
-      <div className="mb-4">
+      <>
+        <h3 className="text-white text-lg font-semibold mb-2 " >Notes</h3>
+        <div className={`bg-opacity-30 h-full overflow-y-auto flex flex-col`}>
+          <div>
         <textarea
           value={newNoteText}
           onChange={(e) => setNewNoteText(e.target.value)}
@@ -56,6 +57,7 @@ function ItemNotes() {
         </div>
       ))}
     </div>
+    </>
   );
 }
 

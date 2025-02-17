@@ -4,6 +4,7 @@ import ItemNotes from './ItemNotes';
 import ItemAttachments from './ItemAttachments';
 import ItemLog from './ItemLog';
 import ItemPreview from './ItemPreview';
+import ItemEdit from './ItemEdit';
 
 interface ItemHeaderProps {
     itemData: {
@@ -95,17 +96,19 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
                         <>
                             <button
                                 onClick={handleSaveClick}
-                                className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+                                className={`inline-flex items-center text-gray-400 hover:text-white focus:text-white p-2 rounded-md hover:bg-[#444791] transition-colors`}
                                 title="Save"
                             >
                                 <Check size={20}/>
+                                <span className="ml-2">Save</span>
                             </button>
                             <button
                                 onClick={handleCancelClick}
-                                className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                                className={`inline-flex items-center text-gray-400 hover:text-white focus:text-white p-2 rounded-md hover:bg-[#444791] transition-colors`}
                                 title="Discard changes"
                             >
                                 <X size={20}/>
+                                <span className="ml-2">Cancel</span>
                             </button>
                         </>
                     ) : (
@@ -155,8 +158,8 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
                 </div>
             </div>
 
-            <div className="bg-[#2f2f2f] rounded-lg shadow-lg p-6 bg-opacity-30 h-full">
-                <div className="flex space-x-4 mb-4">
+            <div className="bg-opacity-10 rounded-lg shadow-lg p-6 h-full overflow-y-auto flex flex-col">
+                <div className="flex space-x-4 mb-4 ">
                     <div className="w-[300px]">
                         <label htmlFor="name" className="block text-sm font-medium text-gray-400">
                             Name
@@ -185,7 +188,7 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
                 {activeView === 'notes' && <ItemNotes userName={userName} />}
                 {activeView === 'attachments' && <ItemAttachments />}
                 {activeView === 'log' && <ItemLog />}
-                {activeView === 'preview'  && <ItemPreview itemData={itemData} />}
+                {activeView === 'preview' && <ItemPreview itemData={itemData} isEditing={activeView === 'edit'} />}
             </div>
         </>
     );
