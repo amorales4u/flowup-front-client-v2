@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background: linear-gradient(to bottom right, #1e293b, #0f172a);
+}
+
 /* SurveyJS Custom Styles */
 .sd-root-modern {
   --background: #2f2f2f !important;
