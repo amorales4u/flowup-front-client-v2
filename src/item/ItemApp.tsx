@@ -156,6 +156,32 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
             </div>
 
             <div className="bg-[#2f2f2f] rounded-lg shadow-lg p-6 bg-opacity-30 h-full">
+                <div className="flex space-x-4 mb-4">
+                    <div className="w-[300px]">
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-400">
+                            Name
+                        </label>
+                        <input
+                            type="text"
+                            id="name"
+                            value={itemData?.name}
+                            readOnly
+                            className="bg-[#1f1f1f] border border-[#444] rounded-md p-2 text-white w-full"
+                        />
+                    </div>
+                    <div className="flex-1">
+                        <label htmlFor="description" className="block text-sm font-medium text-gray-400">
+                            Description
+                        </label>
+                        <input
+                            type="text"
+                            id="description"
+                            value={itemData?.description}
+                            readOnly
+                            className="bg-[#1f1f1f] border border-[#444] rounded-md p-2 text-white w-full"
+                        />
+                    </div>
+                </div>
                 {activeView === 'notes' && <ItemNotes userName={userName} />}
                 {activeView === 'attachments' && <ItemAttachments />}
                 {activeView === 'log' && <ItemLog />}
