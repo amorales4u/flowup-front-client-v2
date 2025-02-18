@@ -1,6 +1,6 @@
 import { useState } from 'react';
     import { Menu, Search } from 'lucide-react';
-    import Item from './Item';
+    import Item from './Item.tsx';
 
     interface ItemListProps {
       items: {
