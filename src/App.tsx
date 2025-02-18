@@ -14,6 +14,7 @@ import { useState } from 'react';
     function App() {
       const [selectedItem, setSelectedItem] = useState(null);
       const [activeView, setActiveView] = useState<'preview' | 'edit' | 'attachments' | 'notes' | 'log'>('preview');
+      const [selectedSidebarItem, setSelectedSidebarItem] = useState<string | null>('Grupos'); // State for selected sidebar item
 
       const handleSelectItem = (item: any) => {
         console.log('Selected item:', item);
@@ -33,11 +34,16 @@ import { useState } from 'react';
         setActiveView('preview');
       };
 
+      const handleSidebarItemSelect = (itemName: string) => {
+        setSelectedSidebarItem(itemName);
+      };
+
       const sidebarItems = [
         { id: "01JM2GSK7K4TH1K3YCCFZMGB0J", name: 'Grupos', description: 'Grupos', image: 'users', modifyDate: '2024-02-26 16:00' },
         { id: "01JM2GSY53FNRCFZKJD3QGS73C", name: 'Users', description: 'User management', image: 'user', modifyDate: '2024-02-26 16:00' },
-        { id: "01JM2GT68WV3C43A3KGPNMF2PS", name: 'Notifications', description: 'Notifications', image: 'bell', modifyDate: '2024-02-26 16:00' },
-        { id: "01JM2GV1NDXG0W37P221ZV0T10", name: 'Calendar', description: 'Event calendar', image: 'calendar', modifyDate: '2024-02-26 16:00' },
+        { id: "01JM2GT68WV3C43A3KGPNMF2PS", name: 'Tasks', description: 'Tasks', image: 'tasks', modifyDate: '2024-02-26 16:00' },
+        { id: "01JM2GV1NDXG0W37P221ZV0T10", name: 'Process Instances', description: 'Process Instances', image: 'process-instances', modifyDate: '2024-02-26 16:00' },
+        { id: "01JM2GV1NDXG0W37P221ZV0T11", name: 'Process', description: 'Process', image: 'process', modifyDate: '2024-02-26 16:00' },
       ];
 
       const itemListItems = [
@@ -48,9 +54,9 @@ import { useState } from 'react';
 
       return (
         <div className="flex h-screen">
-          <Sidebar items={sidebarItems} onLogout={() => {}} />
+          <Sidebar items={sidebarItems} onLogout={() => {}} selectedItemName={selectedSidebarItem} onSelectItem={handleSidebarItemSelect} />
           <div className="w-72 h-full">
-            <ItemList items={itemListItems} onSelectItem={handleSelectItem}/>
+            <ItemList items={itemListItems} onSelectItem={handleSelectItem} selectedSidebarItem={selectedSidebarItem}/>
           </div>
           <div className="flex-1 flex flex-col">
             <ItemApp

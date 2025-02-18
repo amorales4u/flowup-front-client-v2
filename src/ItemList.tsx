@@ -12,9 +12,10 @@ import { useState } from 'react';
         time: string; // Add time prop
       }[];
       onSelectItem: (item: any) => void; // Add onSelectItem prop
+      selectedSidebarItem: string | null; // Add prop for selected sidebar item
     }
 
-    function ItemList({ items, onSelectItem }: ItemListProps) {
+    function ItemList({ items, onSelectItem, selectedSidebarItem }: ItemListProps) {
 
         const [selectedItem, setSelectedItem] = useState(null);
 
@@ -29,7 +30,7 @@ import { useState } from 'react';
       return (
         <div className="bg-[#222222] bg-opacity-20 h-full p-4 flex flex-col">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-white text-xl font-semibold">{"Grupos"}</h2>
+            <h2 className="text-white text-xl font-semibold">{selectedSidebarItem}</h2>
             <Menu className="text-gray-400" size={20} />
           </div>
           <div className="bg-[#292929] rounded-md p-2 flex items-center mb-4">
