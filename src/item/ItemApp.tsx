@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {PenSquare, File, FileText, List, Check, X, Info} from 'lucide-react';
+import {PenSquare, File, FileText, List, Check, X, Info, Plus} from 'lucide-react';
 import ItemNotes from './ItemNotes';
 import ItemAttachments from './ItemAttachments';
 import ItemLog from './ItemLog';
@@ -24,34 +24,42 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
     const [name, setName] = useState(itemData?.name || '');
     const [description, setDescription] = useState(itemData?.description || '');
     const [showConfirmation, setShowConfirmation] = useState(false);
-    const [userName, setUserName] = useState('Current User'); // Replace with your actual user data
+    const [userName, setUserName] = useState('Current User');
+    const [isNewRecord, setIsNewRecord] = useState(false);
 
     const handleEditClick = () => {
-        if( activeView === 'edit') {
+        if (activeView === 'edit') {
             setActiveView('preview');
         } else {
             setActiveView('edit');
+            setIsNewRecord(false);
         }
     };
 
+    const handleAddClick = () => {
+        setActiveView('edit');
+        setIsNewRecord(true);
+        setName('');
+        setDescription('');
+    };
+
     const handleDataClick = () => {
-        if( activeView === 'preview') {
+        if (activeView === 'preview') {
             return;
-            }
+        }
         setActiveView('preview');
     };
 
     const handleAttachmentsClick = () => {
-        if( activeView === 'attachments') {
+        if (activeView === 'attachments') {
             setActiveView('preview');
         } else {
             setActiveView('attachments');
         }
-
     };
 
     const handleNotesClick = () => {
-        if( activeView === 'notes') {
+        if (activeView === 'notes') {
             setActiveView('preview');
         } else {
             setActiveView('notes');
@@ -59,7 +67,7 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
     };
 
     const handleLogClick = () => {
-        if( activeView === 'log') {
+        if (activeView === 'log') {
             setActiveView('preview');
         } else {
             setActiveView('log');
@@ -67,10 +75,11 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
     };
 
     const handleSaveClick = () => {
-        if (onSave && itemData) {
+        if (onSave) {
             onSave(name, description);
         }
         setActiveView('preview');
+        setIsNewRecord(false);
     };
 
     const handleCancelClick = () => {
@@ -80,6 +89,7 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
     const handleConfirmCancel = () => {
         setShowConfirmation(false);
         setActiveView('preview');
+        setIsNewRecord(false);
         if (onCancel) {
             onCancel();
         }
@@ -89,17 +99,17 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
         setShowConfirmation(false);
     };
 
-    if (!itemData) {
-        return null;
-    }
-
     return (
         <>
             <div className="h-16 flex items-center justify-between px-4 bg-gradient-to-r from-[#1e293b] to-[#0f172a]">
                 <div className="flex items-center space-x-4">
-                    <h1 className="text-white text-lg font-semibold">{itemData?.name}</h1>
-                    <h1 className="text-white text-lg font-semibold">{"-"}</h1>
-                    <h4 className="text-gray-300 text-sm">{itemData?.description}</h4>
+                    <h1 className="text-white text-lg font-semibold">{isNewRecord ? 'New Record' : itemData?.name}</h1>
+                    {!isNewRecord && (
+                        <>
+                            <h1 className="text-white text-lg font-semibold">{'-'}</h1>
+                            <h4 className="text-gray-300 text-sm">{itemData?.description}</h4>
+                        </>
+                    )}
                 </div>
                 <div className="flex items-center space-x-4">
                     {activeView === 'edit' ? (
@@ -123,6 +133,14 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
                         </>
                     ) : (
                         <>
+                            <button
+                                onClick={handleAddClick}
+                                className={`inline-flex items-center text-gray-400 hover:text-white focus:text-white p-2 rounded-md hover:bg-[#444791] transition-colors`}
+                                title="Add New"
+                            >
+                                <Plus size={20}/>
+                                <span className="ml-2">Add</span>
+                            </button>
                             <button
                                 onClick={handleEditClick}
                                 className={`inline-flex items-center text-gray-400 hover:text-white focus:text-white p-2 rounded-md hover:bg-[#444791] transition-colors`}
@@ -177,7 +195,7 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
                         <input
                             type="text"
                             id="name"
-                            value={itemData?.name}
+                            value={isNewRecord ? name : itemData?.name}
                             readOnly
                             className="bg-[#1f1f1f] border border-[#444] rounded-md p-2 text-white w-full"
                         />
@@ -189,7 +207,7 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
                         <input
                             type="text"
                             id="description"
-                            value={itemData?.description}
+                            value={isNewRecord ? description : itemData?.description}
                             readOnly
                             className="bg-[#1f1f1f] border border-[#444] rounded-md p-2 text-white w-full"
                         />
@@ -197,7 +215,7 @@ function ItemApp({itemData, onViewChange,  onSave, onCancel}: ItemHeaderProps) {
                 </div>
                 {activeView === 'edit' && (
                     <ItemEdit
-                        itemData={itemData}
+                        itemData={isNewRecord ? null : itemData}
                         onSave={onSave}
                         onCancel={handleCancelClick}
                     />

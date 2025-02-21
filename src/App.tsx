@@ -5,13 +5,7 @@ import ItemApp from './item/ItemApp.tsx';
 import Login from './Login.tsx';
 import LogoutDialog from './LogoutDialog';
 import { Workflow } from 'lucide-react';
-
-interface SidebarItem {
-  name: string;
-  description: string;
-  image: string;
-  modifyDate: string;
-}
+import { Storage, ListResponse } from './model/StorageType.tsx';
 
 interface LoginResponse {
   token: string | null;
@@ -24,34 +18,63 @@ interface LoginResponse {
   groups: string[];
 }
 
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<LoginResponse | null>(null);
   const [selectedItem, setSelectedItem] = useState(null);
   const [activeView, setActiveView] = useState<'preview' | 'edit' | 'attachments' | 'notes' | 'log'>('preview');
-  const [selectedSidebarItem, setSelectedSidebarItem] = useState<string | null>('Grupos');
+  const [selectedSidebarItem, setSelectedSidebarItem] = useState<Storage>();
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [sidebarItems, setSidebarItems] = useState<Storage[]>([]);
+  const [itemListItems, setItemListItems] = useState<Storage[]>([]);
+
+  const fetchStorageDirectory = async (token: string) => {
+    try {
+      const response = await fetch('http://localhost:8040/storage/dir', {
+        headers: {
+          'Authorization': sessionStorage.getItem('authToken') || token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const listResponse: ListResponse<Storage> = await response.json();
+      const authHeader = response.headers.get('Authorization');
+      if (authHeader) {
+        sessionStorage.setItem('authToken', authHeader);
+      }
+
+      setSidebarItems(listResponse.data);
+    } catch (error) {
+      console.error('Error fetching storage directory:', error);
+    }
+  };
 
   useEffect(() => {
     const sessionData = localStorage.getItem('userSession');
     if (sessionData) {
       try {
         const parsedData: LoginResponse = JSON.parse(sessionData);
-        if (parsedData && parsedData.valid) {
+        if (parsedData && parsedData.valid && parsedData.token) {
           setIsLoggedIn(true);
           setUserData(parsedData);
+          fetchStorageDirectory(parsedData.token);
         }
       } catch (error) {
         console.error('Error parsing session data:', error);
-        localStorage.removeItem('userSession'); // Clear invalid session data
+        localStorage.removeItem('userSession');
       }
     }
   }, []);
 
   const handleLogin = (isValid: boolean, data?: LoginResponse) => {
     setIsLoggedIn(isValid);
-    if (data) {
+    if (data && data.token) {
       setUserData(data);
+      fetchStorageDirectory(data.token);
     }
   };
 
@@ -67,7 +90,7 @@ function App() {
     // Optionally, reset other app states
     setSelectedItem(null);
     setActiveView('preview');
-    setSelectedSidebarItem(null);
+    setSelectedSidebarItem(undefined);
   };
 
   const handleCancelLogout = () => {
@@ -92,10 +115,32 @@ function App() {
     setActiveView('preview');
   };
 
-  const handleSidebarItemSelect = (itemName: string) => {
-    setSelectedSidebarItem(itemName);
-  };
+  const handleSidebarItemSelect = async (item: Storage) => {
+    setSelectedSidebarItem(item);
+    if (userData?.token) {
+      try {
+        const response = await fetch(`http://localhost:8040/storage/dir${item.path || ''}`, {
+          headers: {
+            'Authorization': sessionStorage.getItem('authToken') || userData.token
+          }
+        });
 
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const listResponse: ListResponse<Storage> = await response.json();
+        const authHeader = response.headers.get('Authorization');
+        if (authHeader) {
+          sessionStorage.setItem('authToken', authHeader);
+        }
+        setItemListItems(listResponse.data);
+      } catch (error) {
+        console.error('Error fetching storage directory:', error);
+      }
+    }
+  };
+  /*
   const sidebarItems = [
     { id: "01JM2GSK7K4TH1K3YCCFZMGB0J", name: 'Grupos', description: 'Grupos', image: 'users', modifyDate: '2024-02-26 16:00' },
     { id: "01JM2GSY53FNRCFZKJD3QGS73C", name: 'Users', description: 'User management', image: 'user', modifyDate: '2024-02-26 16:00' },
@@ -103,13 +148,14 @@ function App() {
     { id: "01JM2GV1NDXG0W37P221ZV0T10", name: 'Process Instances', description: 'Process Instances', image: 'process-instances', modifyDate: '2024-02-26 16:00' },
     { id: "01JM2GV1NDXG0W37P221ZV0T11", name: 'Process', description: 'Process', image: 'process', modifyDate: '2024-02-26 16:00' },
   ];
-
+  */
+ /*
   const itemListItems = [
     { id: "01JM2GV9X01YYM2WVTXN6ZXKDM",name: "Admin", description: "Administrador general", image: null, modifyDate: "2024-02-26 16:00" },
     { id: "01JM2GVKT8J6EWG7X1BSJXN34R",name: "BPMN-ADMIN", description: "Grupo de administradores de BPMN", image: null, modifyDate: "2024-02-26 16:00" },
     { id: "01JM2GVWHET2TYP0SKT7K58YC2",name: "BPMN-USER", description: "Grupo de usuarios de BPMN", image: null, modifyDate: "2024-02-26 16:00" },
   ];
-
+*/
   if (!isLoggedIn) {
     return <Login onLogin={handleLogin} />;
   }
@@ -117,7 +163,7 @@ function App() {
   return (
     <>
       <div className="flex h-screen">
-        <Sidebar items={sidebarItems} onLogout={handleLogout} onSelectItem={handleSidebarItemSelect} selectedItemName={selectedSidebarItem} />
+        <Sidebar items={sidebarItems} onLogout={handleLogout} onSelectItem={handleSidebarItemSelect} />
         <div className="w-72 h-full">
           <ItemList items={itemListItems} onSelectItem={handleSelectItem} selectedSidebarItem={selectedSidebarItem}/>
         </div>

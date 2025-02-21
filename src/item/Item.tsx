@@ -9,41 +9,24 @@
       onClick?: () => void; // Add onClick prop
     }
 
-    function formatRelativeTime(dateString: string): string {
-      const now = Date.now();
-      const modifyDate = new Date(dateString.replace(" ", "T") + ":00"); //add seconds to be able to parse
-      const diffInSeconds = Math.floor((now - modifyDate.getTime()) / 1000);
-
-      if (diffInSeconds < 60) {
-        return `${diffInSeconds} seconds ago`;
-      }
-
-      const diffInMinutes = Math.floor(diffInSeconds / 60);
-      if (diffInMinutes < 60) {
-        return `${diffInMinutes} minutes ago`;
-      }
-
-      const diffInHours = Math.floor(diffInMinutes / 60);
-      if (diffInHours < 24) {
-        return `${diffInHours} hours ago`;
-      }
-
-      const diffInDays = Math.floor(diffInHours / 24);
-      if (diffInDays < 7) {
-        return `${diffInDays} days ago`;
-      }
-
-      // For dates older than a week, return the original date format.
-      return dateString.split(" ")[0]; // Returns YYYY-MM-DD
+    function formatDate(dateString: string): string {
+      const date = new Date(dateString);
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      
+      return `${day}/${month}/${year} ${hours}:${minutes}`;
     }
 
     function Item({ name, message, date, active = false, onClick }: ItemProps) {
-      const formattedDate = formatRelativeTime(date);
+      const formattedDate = formatDate(date);
 
       return (
         <div
           className={`p-3 rounded-md cursor-pointer ${active ? 'bg-[#444791]' : 'hover:bg-[#2f2f2f]'}`}
-          onClick={onClick} // Add onClick handler
+          onClick={onClick}
         >
           <div className="flex justify-between items-start mb-1">
             <h3 className="text-white font-medium">{name}</h3>

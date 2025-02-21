@@ -1,3 +1,20 @@
+
+
+export interface ObjectResponse<T> {
+    error: boolean;
+    errorDescription: string;
+    data: T | null;
+}
+
+export interface ListResponse<T> {
+    error: boolean;
+    errorDescription: string;
+    data: T[];
+    listCount: number;
+    pageCount: number;
+    recordCount: number;
+}
+
 export interface Storage {
     id: string;
     isFolder: boolean;
